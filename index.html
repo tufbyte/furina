@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Furina Chat Interface</title>
+
+<!-- External CSS -->
+<link rel="stylesheet" href="style.css">
+
+<!-- Favicon / logo -->
+<link rel="icon" href="logo.png" type="image/png">
+
+</head>
+<body>
+  <!-- Sneaky header: makes it look like a generic dashboard -->
+  <header class="header">
+    <img src="logo.png" alt="Logo" class="header-logo">
+    <h1 class="header-title">Dashboard</h1>
+    <nav class="header-nav">
+      <a href="#">Home</a>
+      <a href="#">Profile</a>
+      <a href="#">Settings</a>
+    </nav>
+  </header>
+
+  <!-- Main chat container (centered, deceptive outer UI) -->
+  <main class="main-container">
+    <section class="chat-wrapper">
+      <!-- Chat box header -->
+      <div class="chat-header">
+        <h2>Messages</h2>
+        <span class="chat-status" id="chatStatus">Offline</span>
+      </div>
+
+      <!-- Chat messages -->
+      <div class="chat-log" id="chatLog">
+        <p class="chat-placeholder">No messages yet...</p>
+      </div>
+
+      <!-- Input area -->
+      <div class="chat-input-area">
+        <input type="text" id="messageInput" placeholder="Type message..." autocomplete="off">
+        <button id="sendBtn">Send</button>
+        <button id="fetchBtn">Fetch</button>
+      </div>
+
+      <!-- Paraphrase input (hidden/deceptive) -->
+      <div class="paraphrase-section" style="display:none;">
+        <label for="paraphraseInput">Room code:</label>
+        <input type="text" id="paraphraseInput" placeholder="Enter code..." value="furina">
+      </div>
+    </section>
+
+    <!-- Optional sidebar: deceptive panels to look like a normal app -->
+    <aside class="sidebar">
+      <h3>Recent Activity</h3>
+      <ul>
+        <li>Loading...</li>
+        <li>Loading...</li>
+        <li>Loading...</li>
+      </ul>
+    </aside>
+  </main>
+
+  <!-- Footer: looks like generic app -->
+  <footer class="footer">
+    <p>&copy; 2025 Furina Corp. All rights reserved.</p>
+  </footer>
+
+  <!-- External JS files -->
+  <script src="crypto.js"></script>
+  <script src="api.js"></script>
+  <script src="main.js"></script>
+
+  <!-- Inline JS to initialize interface -->
+  <script>
+    // Fake deceptive logs for UX
+    const logEl = document.getElementById('chatLog');
+    logEl.innerHTML = "<p class='chat-system'>Connecting...</p>";
+
+    // Show main chat area after 1s
+    setTimeout(() => {
+      logEl.innerHTML = "<p class='chat-placeholder'>No messages yet.</p>";
+      document.getElementById('chatStatus').textContent = 'Online';
+    }, 1000);
+  </script>
+</body>
+</html>
