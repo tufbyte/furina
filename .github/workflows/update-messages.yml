@@ -2,41 +2,29 @@ name: Update Messages
 
 on:
   repository_dispatch:
-    types: [update-messages]   # matches the event_type sent from api.js
+    types: [update-messages]
 
 jobs:
-  update-messages:
+  append-message:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the repo
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      # 2. Ensure messages.json exists
-      - name: Initialize messages.json if missing
+      - name: Ensure messages.json exists
         run: |
           if [ ! -f messages.json ]; then
             echo "[]" > messages.json
           fi
 
-      # 3. Append new encrypted message
       - name: Append encrypted message
         run: |
-          # Get existing messages
           CURRENT=$(cat messages.json)
-          
-          # Get new message from client_payload
           NEW="${{ github.event.client_payload.encrypted }}"
-          
-          # Append using jq
           UPDATED=$(echo "$CURRENT" | jq --arg msg "$NEW" '. += [$msg]')
-          
-          # Save back
           echo "$UPDATED" > messages.json
 
-      # 4. Commit & push changes
-      - name: Commit & push messages.json
+      - name: Commit and push
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
@@ -44,5 +32,4 @@ jobs:
           git commit -m "Add encrypted message [skip ci]"
           git push origin main
         env:
-          # GitHub secret token used to authenticate the push
           GITHUB_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
